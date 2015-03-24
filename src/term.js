@@ -1311,7 +1311,7 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
-    if (!this.firstTime) {
+    if (false/*!this.firstTime*/) {
       childrenElement = this.children[y];
       var newChildrenElement = this.document.createElement('div'); // childrenElement.cloneNode(false);
       newChildrenElement.innerHTML = out;
