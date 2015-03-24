@@ -712,9 +712,11 @@ Terminal.prototype.open = function(parent) {
 
   // Create the lines for our terminal.
   this.children = [];
+  this.fragment = this.document.createDocumentFragment();
   for (; i < this.rows; i++) {
     div = this.document.createElement('div');
-    this.element.appendChild(div);
+    // this.element.appendChild(div);
+    this.fragment.appendChild(div);
     this.children.push(div);
   }
   this.parent.appendChild(this.element);
@@ -1307,6 +1309,8 @@ Terminal.prototype.refresh = function(start, end) {
 
     this.children[y].innerHTML = out;
   }
+
+  this.flushDocumentFragment();
 
   if (parent) parent.appendChild(this.element);
 };
@@ -2946,7 +2950,8 @@ Terminal.prototype.resize = function(x, y) {
       }
       if (this.children.length < y) {
         line = this.document.createElement('div');
-        el.appendChild(line);
+        // el.appendChild(line);
+        this.fragment.appendChild(line);
         this.children.push(line);
       }
     }
@@ -5727,6 +5732,10 @@ Terminal.prototype.keySearch = function(ev, key) {
   }
 
   return false;
+};
+
+Terminal.prototype.flushDocumentFragment = function() {
+  this.element.appendChild(this.fragment.cloneNode(true));
 };
 
 /**

@@ -14,6 +14,10 @@
     font: 20px/1.5 sans-serif;
   }
 
+  div {
+    color: #fff;
+  }
+
 /*
   .terminal {
     float: left;
@@ -34,11 +38,12 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="term.js"></script>
 <script>
+var term;
 ;(function() {
   window.onload = function() {
     var socket = io.connect();
     socket.on('connect', function() {
-      var term = new Terminal({
+      term = new Terminal({
         cols: 80,
         rows: 24,
         useStyle: true,
