@@ -1308,8 +1308,9 @@ Terminal.prototype.refresh = function(start, end) {
     }
 
     this.children[y].innerHTML = out;
-    this.flushDocumentFragment();
   }
+
+  this.flushDocumentFragment();
 
   if (parent) parent.appendChild(this.element);
 };
