@@ -1328,7 +1328,7 @@ Terminal.prototype.refresh = function(start, end) {
 
   // this.flushDocumentFragment();
 
-  if (parent && this.element.parentNode !== parent) {
+  if (parent) { //  && this.element.parentNode !== parent
     parent.appendChild(this.element);
   }
 };
