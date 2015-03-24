@@ -713,6 +713,7 @@ Terminal.prototype.open = function(parent) {
   // Create the lines for our terminal.
   this.children = [];
   this.fragment = this.document.createDocumentFragment();
+  this.firstTime = true;
   for (; i < this.rows; i++) {
     div = this.document.createElement('div');
     this.element.appendChild(div);
@@ -723,6 +724,7 @@ Terminal.prototype.open = function(parent) {
 
   // Draw the screen.
   this.refresh(0, this.rows - 1);
+  this.firstTime = true;
 
   // Initialize global actions that
   // need to be taken on the document.
@@ -1312,7 +1314,9 @@ Terminal.prototype.refresh = function(start, end) {
     //   this.document.defaultView.useFragment = false;
     // }
 
-    this.fragment.appendChild(this.children[y]);
+    if (!this.firstTime) {
+      this.fragment.appendChild(this.children[y]);
+    }
 
     this.children[y].innerHTML = out;
   }
