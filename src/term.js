@@ -715,8 +715,8 @@ Terminal.prototype.open = function(parent) {
   this.fragment = this.document.createDocumentFragment();
   for (; i < this.rows; i++) {
     div = this.document.createElement('div');
-    // this.element.appendChild(div);
-    this.fragment.appendChild(div);
+    this.element.appendChild(div);
+    // this.fragment.appendChild(div);
     this.children.push(div);
   }
   this.parent.appendChild(this.element);
@@ -1308,9 +1308,8 @@ Terminal.prototype.refresh = function(start, end) {
     }
 
     this.children[y].innerHTML = out;
+    this.flushDocumentFragment();
   }
-
-  this.flushDocumentFragment();
 
   if (parent) parent.appendChild(this.element);
 };
