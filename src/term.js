@@ -1307,6 +1307,13 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
+    // if (this.document.defaultView.useFragment) {
+    //   this.fragment.appendChild(this.children[y]);
+    //   this.document.defaultView.useFragment = false;
+    // }
+
+    this.fragment.appendChild(this.children[y]);
+
     this.children[y].innerHTML = out;
   }
 
@@ -5735,7 +5742,7 @@ Terminal.prototype.keySearch = function(ev, key) {
 };
 
 Terminal.prototype.flushDocumentFragment = function() {
-  this.element.appendChild(this.fragment.cloneNode(true));
+  this.element.appendChild(this.fragment);
 };
 
 /**
