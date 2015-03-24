@@ -1311,18 +1311,18 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
-    childrenElement = this.children[y];
-
     if (!this.firstTime) {
-      var newChildrenElement = childrenElement.cloneNode(false);
+      childrenElement = this.children[y];
+      var newChildrenElement = this.document.createElement('div'); // childrenElement.cloneNode(false);
       newChildrenElement.innerHTML = out;
 
       childrenElement.parentNode.replaceChild(newChildrenElement, childrenElement);
       this.children[y] = newChildrenElement;
+      childrenElement = null;
       // fragment.appendChild(childrenElement);
     }
     else {
-      childrenElement.innerHTML = out;
+      this.children[y].innerHTML = out;
     }
   }
 
