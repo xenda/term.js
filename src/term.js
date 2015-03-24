@@ -724,7 +724,7 @@ Terminal.prototype.open = function(parent) {
 
   // Draw the screen.
   this.refresh(0, this.rows - 1);
-  this.firstTime = true;
+  this.firstTime = false;
 
   // Initialize global actions that
   // need to be taken on the document.
