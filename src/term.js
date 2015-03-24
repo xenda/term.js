@@ -1168,7 +1168,9 @@ Terminal.prototype.refresh = function(start, end) {
     , fg
     , flags
     , row
-    , parent;
+    , parent
+    , fragment = this.fragment
+    , childrenElement;
 
   if (end - start >= this.rows / 2) {
     parent = this.element.parentNode;
@@ -1184,6 +1186,7 @@ Terminal.prototype.refresh = function(start, end) {
   }
 
   for (; y <= end; y++) {
+    childrenElement = this.children[y];
     row = y + this.ydisp;
 
     line = this.lines[row];
@@ -1309,19 +1312,20 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
-    // if (this.document.defaultView.useFragment) {
-    //   this.fragment.appendChild(this.children[y]);
-    //   this.document.defaultView.useFragment = false;
-    // }
-
     if (!this.firstTime) {
-      this.fragment.appendChild(this.children[y]);
-    }
+      var newChildrenElement = childrenElement.cloneNode(false);
+      newChildrenElement.innerHTML = out;
 
-    this.children[y].innerHTML = out;
+      childrenElement.parentNode.replaceChild(newChildrenElement, childrenElement);
+      this.children[y] = newChildrenElement;
+      // fragment.appendChild(childrenElement);
+    }
+    else {
+      childrenElement.innerHTML = out;
+    }
   }
 
-  this.flushDocumentFragment();
+  // this.flushDocumentFragment();
 
   if (parent) parent.appendChild(this.element);
 };
@@ -2921,6 +2925,7 @@ Terminal.prototype.error = function() {
 };
 
 Terminal.prototype.resize = function(x, y) {
+  this.firstTime = true;
   var line
     , el
     , i
@@ -2994,6 +2999,7 @@ Terminal.prototype.resize = function(x, y) {
   // screen buffer. just set it
   // to null for now.
   this.normal = null;
+  this.firstTime = false;
 };
 
 Terminal.prototype.updateRange = function(y) {
