@@ -1186,7 +1186,6 @@ Terminal.prototype.refresh = function(start, end) {
   }
 
   for (; y <= end; y++) {
-    childrenElement = this.children[y];
     row = y + this.ydisp;
 
     line = this.lines[row];
@@ -1312,6 +1311,8 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
+    childrenElement = this.children[y];
+
     if (!this.firstTime) {
       var newChildrenElement = childrenElement.cloneNode(false);
       newChildrenElement.innerHTML = out;
@@ -1327,7 +1328,9 @@ Terminal.prototype.refresh = function(start, end) {
 
   // this.flushDocumentFragment();
 
-  if (parent) parent.appendChild(this.element);
+  if (parent && this.element.parentNode !== parent) {
+    parent.appendChild(this.element);
+  }
 };
 
 Terminal.prototype._cursorBlink = function() {
