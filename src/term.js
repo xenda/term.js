@@ -712,15 +712,19 @@ Terminal.prototype.open = function(parent) {
 
   // Create the lines for our terminal.
   this.children = [];
+  this.fragment = this.document.createDocumentFragment();
+  this.firstTime = true;
   for (; i < this.rows; i++) {
     div = this.document.createElement('div');
     this.element.appendChild(div);
+    // this.fragment.appendChild(div);
     this.children.push(div);
   }
   this.parent.appendChild(this.element);
 
   // Draw the screen.
   this.refresh(0, this.rows - 1);
+  this.firstTime = false;
 
   // Initialize global actions that
   // need to be taken on the document.
@@ -736,6 +740,10 @@ Terminal.prototype.open = function(parent) {
   // to focus and paste behavior.
   on(this.element, 'focus', function() {
     self.focus();
+
+    if (this.isMobile) {
+      Terminal._textarea.focus();
+    }
   });
 
   // This causes slightly funky behavior.
@@ -1164,7 +1172,9 @@ Terminal.prototype.refresh = function(start, end) {
     , fg
     , flags
     , row
-    , parent;
+    , parent
+    , fragment = this.fragment
+    , childrenElement;
 
   if (end - start >= this.rows / 2) {
     parent = this.element.parentNode;
@@ -1305,10 +1315,26 @@ Terminal.prototype.refresh = function(start, end) {
       out += '</span>';
     }
 
-    this.children[y].innerHTML = out;
+    if (false/*!this.firstTime*/) {
+      childrenElement = this.children[y];
+      var newChildrenElement = this.document.createElement('div'); // childrenElement.cloneNode(false);
+      newChildrenElement.innerHTML = out;
+
+      childrenElement.parentNode.replaceChild(newChildrenElement, childrenElement);
+      this.children[y] = newChildrenElement;
+      childrenElement = null;
+      // fragment.appendChild(childrenElement);
+    }
+    else {
+      this.children[y].innerHTML = out;
+    }
   }
 
-  if (parent) parent.appendChild(this.element);
+  // this.flushDocumentFragment();
+
+  if (parent) { //  && this.element.parentNode !== parent
+    parent.appendChild(this.element);
+  }
 };
 
 Terminal.prototype._cursorBlink = function() {
@@ -2906,6 +2932,7 @@ Terminal.prototype.error = function() {
 };
 
 Terminal.prototype.resize = function(x, y) {
+  this.firstTime = true;
   var line
     , el
     , i
@@ -2946,7 +2973,8 @@ Terminal.prototype.resize = function(x, y) {
       }
       if (this.children.length < y) {
         line = this.document.createElement('div');
-        el.appendChild(line);
+        // el.appendChild(line);
+        this.fragment.appendChild(line);
         this.children.push(line);
       }
     }
@@ -2978,6 +3006,7 @@ Terminal.prototype.resize = function(x, y) {
   // screen buffer. just set it
   // to null for now.
   this.normal = null;
+  this.firstTime = false;
 };
 
 Terminal.prototype.updateRange = function(y) {
@@ -5727,6 +5756,10 @@ Terminal.prototype.keySearch = function(ev, key) {
   }
 
   return false;
+};
+
+Terminal.prototype.flushDocumentFragment = function() {
+  this.element.appendChild(this.fragment);
 };
 
 /**
