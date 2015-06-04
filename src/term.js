@@ -654,6 +654,11 @@ Terminal.prototype.fixMobile = function(document) {
     on(textarea, 'blur', function() {
       spacer.parentElement.removeChild(spacer);
     });
+
+    on(textarea, 'keypress', function() {
+      var value = textarea.textContent || textarea.value || '';
+      textarea.value = value.toLowerCase();
+    });
   }
 };
 
