@@ -619,15 +619,13 @@ Terminal.prototype.fixMobile = function(document) {
   textarea.autocomplete = 'off';
   textarea.autocorrect = 'off';
 
-  textarea.focus();
-  textarea.blur();
-
   document.getElementsByTagName('body')[0].appendChild(textarea);
 
   Terminal._textarea = textarea;
 
   setTimeout(function() {
     textarea.focus();
+    textarea.blur();
   }, 1000);
 
   if (this.isAndroid) {
@@ -644,7 +642,7 @@ Terminal.prototype.fixMobile = function(document) {
       textarea.value = '';
       textarea.textContent = '';
       
-      self.send(value + '\r');
+      self.send(value.toLowerCase() + '\r');
     });
 
     on(textarea, 'focus', function() {
@@ -653,11 +651,6 @@ Terminal.prototype.fixMobile = function(document) {
 
     on(textarea, 'blur', function() {
       spacer.parentElement.removeChild(spacer);
-    });
-
-    on(textarea, 'keypress', function() {
-      var value = textarea.textContent || textarea.value || '';
-      textarea.value = value.toLowerCase();
     });
   }
 };
