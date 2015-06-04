@@ -635,7 +635,7 @@ Terminal.prototype.fixMobile = function(document) {
 
     textarea.parentElement.appendChild(spacer);
 
-    on(textarea, 'keypress', function(ev) {
+    on(textarea, 'keydown', function(ev) {
       var keyAsString = String.fromCharCode(ev.charCode);
 
       console.log('keyAsString', keyAsString);
