@@ -635,17 +635,21 @@ Terminal.prototype.fixMobile = function(document) {
 
     textarea.parentElement.appendChild(spacer);
 
-    on(textarea, 'keydown', function(ev) {
-      self.write(String.fromCharCode(ev.keyCode));
+    on(textarea, 'keypress', function(ev) {
+      var keyAsString = String.fromCharCode(ev.charCode);
 
-      if (ev.keyCode === 13) {
-        var value = textarea.textContent || textarea.value;
-
-        textarea.value = '';
-        textarea.textContent = '';
-
-        self.send(value.toLowerCase() + '\r');
+      if (keyAsString !== '') {
+        self.write(keyAsString);
       }
+
+      // if (ev.keyCode === 13) {
+      //   var value = textarea.textContent || textarea.value;
+
+      //   textarea.value = '';
+      //   textarea.textContent = '';
+
+      //   self.send(value.toLowerCase() + '\r');
+      // }
     });
 
     on(textarea, 'change', function() {
