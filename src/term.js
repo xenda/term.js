@@ -614,6 +614,9 @@ Terminal.prototype.fixMobile = function(document) {
   textarea.style.borderStyle = 'none';
   textarea.style.outlineStyle = 'none';
   textarea.autocapitalize = 'none';
+  textarea.autocapitalize = 'off';
+  textarea.spellcheck = false;
+  textarea.autocomplete = 'off';
   textarea.autocorrect = 'off';
 
   document.getElementsByTagName('body')[0].appendChild(textarea);
@@ -625,11 +628,28 @@ Terminal.prototype.fixMobile = function(document) {
   }, 1000);
 
   if (this.isAndroid) {
+    var spacer = document.createElement('div');
+    spacer.className = 'android_spacer';
+    spacer.style.width = '100%';
+    spacer.style.height = '200px';
+
+    textarea.parentElement.appendChild(spacer);
+
     on(textarea, 'change', function() {
       var value = textarea.textContent || textarea.value;
+
       textarea.value = '';
       textarea.textContent = '';
+      
       self.send(value + '\r');
+    });
+
+    on(textarea, 'focus', function() {
+      textarea.parentElement.insertBefore(spacer, textarea.nextElementSibling)
+    });
+
+    on(textarea, 'blur', function() {
+      spacer.parentElement.removeChild(spacer);
     });
   }
 };
