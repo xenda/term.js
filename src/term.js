@@ -737,7 +737,7 @@ Terminal.prototype.open = function(parent) {
   on(this.element, 'focus', function() {
     self.focus();
 
-    if (self.isMobile {
+    if (self.isMobile) {
       Terminal._textarea.focus();
     }
   });
