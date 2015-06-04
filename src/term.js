@@ -631,7 +631,7 @@ Terminal.prototype.fixMobile = function(document) {
     var spacer = document.createElement('div');
     spacer.className = 'android_spacer';
     spacer.style.width = '100%';
-    spacer.style.height = '200px';
+    spacer.style.height = '1px';
 
     textarea.parentElement.appendChild(spacer);
 
