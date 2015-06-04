@@ -625,7 +625,6 @@ Terminal.prototype.fixMobile = function(document) {
 
   setTimeout(function() {
     textarea.focus();
-    textarea.blur();
   }, 1000);
 
   if (this.isAndroid) {
