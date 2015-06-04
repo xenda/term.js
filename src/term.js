@@ -638,6 +638,8 @@ Terminal.prototype.fixMobile = function(document) {
     on(textarea, 'keypress', function(ev) {
       var keyAsString = String.fromCharCode(ev.charCode);
 
+      console.log('keyAsString', keyAsString);
+
       if (keyAsString !== '') {
         self.write(keyAsString);
       }
@@ -2592,7 +2594,7 @@ Terminal.prototype.keyDown = function(ev) {
       break;
     default:
       // a-z and space
-      if (ev.ctrlKey || (this.isMac || this.isMobile) && ev.metaKey) {
+      if (ev.ctrlKey || this.isMac && ev.metaKey) {
         if (ev.keyCode >= 65 && ev.keyCode <= 90) {
           // Ctrl-A
           if (this.screenKeys) {
@@ -2730,13 +2732,13 @@ Terminal.prototype.keyDown = function(ev) {
             }
           }
         }
-      } else if ((this.isMac || this.isMobile) && ev.metaKey) {
+      } else if (this.isMac && ev.metaKey) {
         return true;
-      } if (this['kbLayout'] != 'us' && (((this.isMac || this.isMobile) && ev.altKey) || (!(this.isMac || this.isMobile) && ev.altKey && ev.ctrlKey))) {
+      } if (this['kbLayout'] != 'us' && ((this.isMac && ev.altKey) || (!this.isMac && ev.altKey && ev.ctrlKey))) {
         // This is to support keyboards with third-level characters
           if (this['kbLayout'] == 'ee') {
           // Estonian
-            if(!(this.isMac || this.isMobile)) {
+            if(!this.isMac) {
               if (ev.keyCode === 50) {
                 // AltGr-2 => @
                 key = String.fromCharCode(64);
@@ -2768,7 +2770,7 @@ Terminal.prototype.keyDown = function(ev) {
                 // AltGr-< => |
                 key = String.fromCharCode(124);
               }
-            } else if ((this.isMac || this.isMobile)) {
+            } else if (this.isMac) {
               if (ev.keyCode === 50) {
                 // Alt-2 => @
                 key = String.fromCharCode(64);
@@ -2837,7 +2839,7 @@ Terminal.prototype.keyDown = function(ev) {
     If we are on a mac system and we press command+p do not cancel event
   */
   if ((ev.keyCode === 86) 
-    && (((this.isMac || this.isMobile) && ev.metaKey) || (!(this.isMac || this.isMobile) && ev.ctrlKey))) {
+    && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))) {
     return true; 
   } 
 
