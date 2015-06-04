@@ -619,6 +619,9 @@ Terminal.prototype.fixMobile = function(document) {
   textarea.autocomplete = 'off';
   textarea.autocorrect = 'off';
 
+  textarea.focus();
+  textarea.blur();
+
   document.getElementsByTagName('body')[0].appendChild(textarea);
 
   Terminal._textarea = textarea;
