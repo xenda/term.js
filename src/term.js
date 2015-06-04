@@ -635,18 +635,18 @@ Terminal.prototype.fixMobile = function(document) {
 
     textarea.parentElement.appendChild(spacer);
 
-    on(textarea, 'keydown', function(ev) {
-      Terminal.focus.keyDown(ev);
+    // on(textarea, 'keydown', function(ev) {
+    //   Terminal.focus.keyDown(ev);
 
-      if (ev.keyCode === 13) {
-        var value = textarea.textContent || textarea.value;
+    //   if (ev.keyCode === 13) {
+    //     var value = textarea.textContent || textarea.value;
 
-        textarea.value = '';
-        textarea.textContent = '';
+    //     textarea.value = '';
+    //     textarea.textContent = '';
         
-        self.send(value.toLowerCase() + '\r');
-      }
-    });
+    //     self.send(value.toLowerCase() + '\r');
+    //   }
+    // });
 
     on(textarea, 'change', function() {
       var value = textarea.textContent || textarea.value;
@@ -2588,7 +2588,7 @@ Terminal.prototype.keyDown = function(ev) {
       break;
     default:
       // a-z and space
-      if (ev.ctrlKey || this.isMac && ev.metaKey) {
+      if (ev.ctrlKey || (this.isMac || this.isMobile) && ev.metaKey) {
         if (ev.keyCode >= 65 && ev.keyCode <= 90) {
           // Ctrl-A
           if (this.screenKeys) {
@@ -2726,13 +2726,13 @@ Terminal.prototype.keyDown = function(ev) {
             }
           }
         }
-      } else if (this.isMac && ev.metaKey) {
+      } else if ((this.isMac || this.isMobile) && ev.metaKey) {
         return true;
-      } if (this['kbLayout'] != 'us' && ((this.isMac && ev.altKey) || (!this.isMac && ev.altKey && ev.ctrlKey))) {
+      } if (this['kbLayout'] != 'us' && (((this.isMac || this.isMobile) && ev.altKey) || (!(this.isMac || this.isMobile) && ev.altKey && ev.ctrlKey))) {
         // This is to support keyboards with third-level characters
           if (this['kbLayout'] == 'ee') {
           // Estonian
-            if(!this.isMac) {
+            if(!(this.isMac || this.isMobile)) {
               if (ev.keyCode === 50) {
                 // AltGr-2 => @
                 key = String.fromCharCode(64);
@@ -2764,7 +2764,7 @@ Terminal.prototype.keyDown = function(ev) {
                 // AltGr-< => |
                 key = String.fromCharCode(124);
               }
-            } else if (this.isMac) {
+            } else if ((this.isMac || this.isMobile)) {
               if (ev.keyCode === 50) {
                 // Alt-2 => @
                 key = String.fromCharCode(64);
@@ -2831,7 +2831,7 @@ Terminal.prototype.keyDown = function(ev) {
     If we are on a mac system and we press command+p do not cancel event
   */
   if ((ev.keyCode === 86) 
-    && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))) {
+    && (((this.isMac || this.isMobile) && ev.metaKey) || (!(this.isMac || this.isMobile) && ev.ctrlKey))) {
     return true; 
   } 
 
