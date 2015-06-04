@@ -2809,6 +2809,8 @@ Terminal.prototype.keyDown = function(ev) {
       break;
   }
 
+  console.log('key', key);
+
   if (!key) return true;
 
   if (this.prefixMode) {
