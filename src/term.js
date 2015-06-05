@@ -651,7 +651,6 @@ Terminal.prototype.fixMobile = function(document) {
     });
 
     on(textarea, 'keyup', function(eventObject) {
-      console.log('keyup');
       if (eventObject.keyCode === 229 || eventObject.keyCode === 0) {
         var keyCode = textarea.value.charCodeAt(textarea.value.length - 1);
 
