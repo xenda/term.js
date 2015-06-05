@@ -639,13 +639,14 @@ Terminal.prototype.fixMobile = function(document) {
 
     var keypressEvent = new KeyboardEvent('keypress');
 
-    var lastCommand = '',
-        lastKeyCode;
+    // var lastCommand = '',
+    //     lastKeyCode;
 
     on(textarea, 'focus', function() {
       textarea.dispatchEvent(keypressEvent);
     });
 
+    /*
     on(textarea, 'keydown', function() {
       lastCommand = textarea.value;
     });
@@ -684,7 +685,7 @@ Terminal.prototype.fixMobile = function(document) {
       // }
       
       // term.send(value);
-    });
+    });*/
 
     // NIGHTLY FIX
 
