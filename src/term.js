@@ -635,24 +635,59 @@ Terminal.prototype.fixMobile = function(document) {
 
     textarea.parentElement.appendChild(spacer);
 
-    on(textarea, 'keydown', function(ev) {
-      var keyAsString = String.fromCharCode(ev.charCode);
+    // NIGHTLY FIX
 
-      console.log('keyAsString', keyAsString);
+    var keypressEvent = new KeyboardEvent('keypress');
 
-      if (keyAsString !== '') {
-        self.write(keyAsString);
+    var lastCommand = '',
+        lastKeyCode;
+
+    on(textarea, 'focus', function() {
+      textarea.dispatchEvent(keypressEvent);
+    });
+
+    on(textarea, 'keydown', function() {
+      lastCommand = textarea.value;
+    });
+
+    on(textarea, 'keyup', function(eventObject) {
+      console.log('keyup');
+      if (eventObject.keyCode === 229 || eventObject.keyCode === 0) {
+        var keyCode = textarea.value.charCodeAt(textarea.value.length - 1);
+
+        if (lastCommand !== textarea.value) {
+          self.keyPress({ keyCode: keyCode });
+        }
+
+        lastKeyCode = undefined;
+        lastCommand = textarea.value;
+      }
+      else {
+        // if (eventObject.keyCode === 32) {
+        //   lastCommand = textarea.value = textarea.value + ' ';
+        // }
+        // else if (eventObject.keyCode === 8) {
+        //   lastCommand = textarea.value = textarea.value.substring(0, textarea.value.length - 1);
+        // }
+        // else if (eventObject.keyCode === 13) {
+        //   lastCommand = textarea.value = '';
+        // }
+
+        // self.keyPress(eventObject);
+
+        lastKeyCode = eventObject.keyCode;
       }
 
-      // if (ev.keyCode === 13) {
-      //   var value = textarea.textContent || textarea.value;
-
-      //   textarea.value = '';
-      //   textarea.textContent = '';
-
-      //   self.send(value.toLowerCase() + '\r');
+      // var value = textarea.textContent || textarea.value;
+      
+      // for (var i = 0; i < value.length; i++){
+      //   term.send('\x7f')
       // }
+      
+      // term.send(value);
     });
+
+    // NIGHTLY FIX
 
     on(textarea, 'change', function() {
       var value = textarea.textContent || textarea.value;
@@ -2814,8 +2849,6 @@ Terminal.prototype.keyDown = function(ev) {
         }
       break;
   }
-
-  console.log('key', key);
 
   if (!key) return true;
 
