@@ -646,6 +646,18 @@ Terminal.prototype.fixMobile = function(document) {
       textarea.dispatchEvent(keypressEvent);
     });
 
+    on(textarea, 'keyup', function(eventObject) {
+      if (eventObject.keyCode === 13) {
+        setTimeout(function() {
+          textarea.blur();
+        }, 0);
+        
+        setTimeout(function() {
+          textarea.focus();
+        }, 0);
+      }
+    });
+
     /*
     on(textarea, 'keydown', function() {
       lastCommand = textarea.value;
@@ -699,7 +711,7 @@ Terminal.prototype.fixMobile = function(document) {
     });
 
     on(textarea, 'focus', function() {
-      textarea.parentElement.insertBefore(spacer, textarea.nextElementSibling)
+      textarea.parentElement.insertBefore(spacer, textarea.nextElementSibling);
     });
 
     on(textarea, 'blur', function() {
