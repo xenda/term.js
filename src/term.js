@@ -521,7 +521,7 @@ Terminal.bindKeys = function(document) {
         || target === Terminal.focus.parent) {
       return Terminal.focus.keyDown(ev);
     }
-  });
+  }, true);
 
   on(document, 'keypress', function(ev) {
     if (!Terminal.focus) return;
@@ -533,7 +533,7 @@ Terminal.bindKeys = function(document) {
         || target === Terminal.focus.body
         || target === Terminal._textarea
         || target === Terminal.focus.parent) {
-
+      console.log('keypress', ev);
       return Terminal.focus.keyPress(ev);
     }
   }, true);
