@@ -2957,16 +2957,14 @@ Terminal.prototype.keyPress = function(ev) {
     return false;
   }
 
-  console.log(key, ev.charCode, ev);
+  // var handle = true;
 
-  var handle = true;
-
-  if (ev.charCode > 0 && handle) {
-    console.log('this.handler1', key);
-    this.emit('data', key);
-    this.emit('data', key);
-    handle = false;
-  }
+  // if (ev.charCode > 0 && handle) {
+  //   console.log('this.handler1', key);
+  //   this.handler(key);
+  //   this.handler(key);
+  //   handle = false;
+  // }
 
   this.emit('keypress', key, ev);
   this.emit('key', key, ev);
@@ -2976,12 +2974,11 @@ Terminal.prototype.keyPress = function(ev) {
     anandp:
     on mac do not allow 'v' key to be sent during paste
   */
+  console.log(key, ev.charCode, ev);
   if (!((key === 'v')
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
-    if (handle) {
       console.log('this.handler2', key);
       this.emit('data', key);
-    }
   }
 
   return cancel(ev);
