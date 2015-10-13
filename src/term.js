@@ -2880,7 +2880,7 @@ Terminal.prototype.keyDown = function(ev) {
   this.showCursor();
 
   if (Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) === -1) {
-    console.log('keyDown:this.handler', key);
+    // console.log('keyDown:this.handler', key);
     this.handler(key);
   }
   /*
@@ -2981,7 +2981,7 @@ Terminal.prototype.keyPress = function(ev) {
   console.log(key, ev.charCode, ev);
   if (!((key === 'v')
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
-      console.log('keyPress:this.handler', key);
+      // console.log('keyPress:this.handler', key);
       // this.emit('data', key);
       this.handler(key);
   }
