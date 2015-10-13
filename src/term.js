@@ -2957,13 +2957,16 @@ Terminal.prototype.keyPress = function(ev) {
     return false;
   }
 
-  if (ev.charCode > 0) {
-    this.send(key);
-    return false;
-  }
+  console.log(key, ev);
 
-  this.emit('keypress', key, ev);
-  this.emit('key', key, ev);
+  if (ev.charCode > 0) {
+    console.log(this.send);
+    this.send(key);
+  }
+  else {
+    this.emit('keypress', key, ev);
+    this.emit('key', key, ev);
+  }
 
   this.showCursor();
   /*
