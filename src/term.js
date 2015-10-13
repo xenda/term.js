@@ -2946,8 +2946,6 @@ Terminal.prototype.keyPress = function(ev) {
 
   key = String.fromCharCode(key);
 
-  console.log(key, ev);
-
   if (this.prefixMode) {
     this.leavePrefix();
     this.keyPrefix(ev, key);
@@ -2957,6 +2955,10 @@ Terminal.prototype.keyPress = function(ev) {
   if (this.selectMode) {
     this.keySelect(ev, key);
     return false;
+  }
+
+  if (ev.charCode > 0 && Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) > -1) {
+    this.send(key);
   }
 
   this.emit('keypress', key, ev);
