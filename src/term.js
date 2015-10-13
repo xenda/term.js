@@ -2879,10 +2879,7 @@ Terminal.prototype.keyDown = function(ev) {
 
   this.showCursor();
 
-  if (
-    (ev.altKey || ev.ctrlKey || ev.metaKey) &&
-    ev.charCode === 0 && Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) > -1
-  ) {
+  if (Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) === -1) {
     console.log('keyDown:this.handler', key);
     this.handler(key);
   }
