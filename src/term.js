@@ -533,7 +533,6 @@ Terminal.bindKeys = function(document) {
         || target === Terminal.focus.body
         || target === Terminal._textarea
         || target === Terminal.focus.parent) {
-      console.log(ev);
 
       return Terminal.focus.keyPress(ev);
     }
@@ -2889,6 +2888,9 @@ Terminal.prototype.keyDown = function(ev) {
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))) {
     return true;
   }
+
+  ev.preventDefault();
+  ev.stopPropagation();
 
   return false;//cancel(ev);
 };
