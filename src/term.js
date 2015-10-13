@@ -524,9 +524,16 @@ Terminal.bindKeys = function(document) {
   }, true);
 
   on(document, 'keypress', function(ev) {
+    console.log(ev, Terminal.focus, ev.target || ev.srcElement);
     if (!Terminal.focus) return;
     var target = ev.target || ev.srcElement;
     if (!target) return;
+    console.log(target === Terminal.focus.element
+        || target === Terminal.focus.context
+        || target === Terminal.focus.document
+        || target === Terminal.focus.body
+        || target === Terminal._textarea
+        || target === Terminal.focus.parent);
     if (target === Terminal.focus.element
         || target === Terminal.focus.context
         || target === Terminal.focus.document
@@ -2641,8 +2648,6 @@ Terminal.prototype.keyDown = function(ev) {
       break;
     default:
       // a-z and space
-      console.log('ev.ctrlKey || this.isMac && ev.metaKey', ev.ctrlKey || this.isMac && ev.metaKey);
-      console.log('ev.altKey', ev.altKey);
       if (ev.ctrlKey || this.isMac && ev.metaKey) {
         if (ev.keyCode >= 65 && ev.keyCode <= 90) {
           // Ctrl-A
@@ -2737,11 +2742,9 @@ Terminal.prototype.keyDown = function(ev) {
         case 219:
           if (ev.shiftKey) {
             key = '\x1b{';
-            console.log(ev.altKey, ev.keyCode, key);
             break;
           }
           key = '\x1b[';
-          console.log(ev.altKey, ev.keyCode, key);
           break;
         case 220:
           if (ev.shiftKey) {
