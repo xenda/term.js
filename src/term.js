@@ -2878,6 +2878,7 @@ Terminal.prototype.keyDown = function(ev) {
   this.emit('key', key, ev);
 
   this.showCursor();
+  console.log('keyDown:this.handler', key);
   this.handler(key);
   /*
     anandp:
@@ -2977,8 +2978,9 @@ Terminal.prototype.keyPress = function(ev) {
   console.log(key, ev.charCode, ev);
   if (!((key === 'v')
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
-      console.log('this.handler2', key);
-      this.emit('data', key);
+      console.log('keyPress:this.handler', key);
+      // this.emit('data', key);
+      this.handler(key);
   }
 
   return cancel(ev);
