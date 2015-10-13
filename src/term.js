@@ -2889,11 +2889,16 @@ Terminal.prototype.keyDown = function(ev) {
     return true;
   }
 
-  ev.preventDefault();
-  // ev.stopPropagation();
+  if ((ev.altKey || ev.ctrlKey || ev.metaKey) && ev.charCode === 0 && Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) > -1) {
+  }
+  else {
+    return cancel(ev);
+  }
 
   return false;//cancel(ev);
 };
+
+Terminal.VIRTUAL_KEYS = [48, 50, 51, 52, 53, 54, 55, 56, 57, 186, 187, 188, 189, 190, 191, 192, 219, 220, 221, 222];
 
 Terminal.prototype.setgLevel = function(g) {
   this.glevel = g;
