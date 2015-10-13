@@ -2957,8 +2957,9 @@ Terminal.prototype.keyPress = function(ev) {
     return false;
   }
 
-  if (ev.charCode > 0 && Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) > -1) {
+  if (ev.charCode > 0) {
     this.send(key);
+    return false;
   }
 
   this.emit('keypress', key, ev);
