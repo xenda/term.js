@@ -2878,8 +2878,14 @@ Terminal.prototype.keyDown = function(ev) {
   this.emit('key', key, ev);
 
   this.showCursor();
-  console.log('keyDown:this.handler', key);
-  this.handler(key);
+
+  if (
+    (ev.altKey || ev.ctrlKey || ev.metaKey) &&
+    ev.charCode === 0 && Terminal.VIRTUAL_KEYS.indexOf(ev.keyCode) > -1
+  ) {
+    console.log('keyDown:this.handler', key);
+    this.handler(key);
+  }
   /*
     anandp:
     If we are on a mac system and we press command+p do not cancel event
