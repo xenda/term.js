@@ -2963,7 +2963,7 @@ Terminal.prototype.keyPress = function(ev) {
 
   if (ev.charCode > 0 && handle) {
     console.log('this.handler1', key);
-    this.handler(key);
+    this.emit('data', key);
     handle = false;
   }
 
@@ -2979,11 +2979,11 @@ Terminal.prototype.keyPress = function(ev) {
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
     if (handle) {
       console.log('this.handler2', key);
-      this.handler(key);
+      this.emit('data', key);
     }
   }
 
-  return false;
+  return cancel(ev);
 };
 
 Terminal.prototype.send = function(data) {
