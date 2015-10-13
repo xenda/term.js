@@ -2890,7 +2890,7 @@ Terminal.prototype.keyDown = function(ev) {
   }
 
   ev.preventDefault();
-  ev.stopPropagation();
+  // ev.stopPropagation();
 
   return false;//cancel(ev);
 };
