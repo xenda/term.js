@@ -507,6 +507,22 @@ Terminal.bindPaste = function(document) {
  */
 
 Terminal.bindKeys = function(document) {
+  on(document, 'keypress', function(ev) {
+    if (!Terminal.focus) return;
+    var target = ev.target || ev.srcElement;
+    if (!target) return;
+    if (target === Terminal.focus.element
+        || target === Terminal.focus.context
+        || target === Terminal.focus.document
+        || target === Terminal.focus.body
+        || target === Terminal._textarea
+        || target === Terminal.focus.parent) {
+      console.log(ev);
+
+      return Terminal.focus.keyPress(ev);
+    }
+  }, true);
+
   // We should only need to check `target === body` below,
   // but we can check everything for good measure.
   on(document, 'keydown', function(ev) {
@@ -520,27 +536,6 @@ Terminal.bindKeys = function(document) {
         || target === Terminal._textarea
         || target === Terminal.focus.parent) {
       return Terminal.focus.keyDown(ev);
-    }
-  }, true);
-
-  on(document, 'keypress', function(ev) {
-    console.log(ev, Terminal.focus, ev.target || ev.srcElement);
-    if (!Terminal.focus) return;
-    var target = ev.target || ev.srcElement;
-    if (!target) return;
-    console.log(target === Terminal.focus.element
-        || target === Terminal.focus.context
-        || target === Terminal.focus.document
-        || target === Terminal.focus.body
-        || target === Terminal._textarea
-        || target === Terminal.focus.parent);
-    if (target === Terminal.focus.element
-        || target === Terminal.focus.context
-        || target === Terminal.focus.document
-        || target === Terminal.focus.body
-        || target === Terminal._textarea
-        || target === Terminal.focus.parent) {
-      return Terminal.focus.keyPress(ev);
     }
   }, true);
 
