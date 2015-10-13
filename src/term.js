@@ -2923,7 +2923,7 @@ Terminal.prototype.keyPress = function(ev) {
   } else {
     return false;
   }
-  console.log(key, ev);
+
   /*
     anandp:
     for mac allow paste event propagation
@@ -2958,27 +2958,30 @@ Terminal.prototype.keyPress = function(ev) {
   }
 
   console.log(key, ev.charCode, ev);
-  console.log(!((key === 'v')
-    && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))));
 
-  if (ev.charCode > 0) {
-    console.log('this.send', key);
-    this.emit('data', key);
+  var handle = true;
+
+  if (ev.charCode > 0 && handle) {
+    console.log('this.handler1', key);
+    this.handler(key);
+    handle = false;
   }
-  else {
-    this.emit('keypress', key, ev);
-    this.emit('key', key, ev);
-  }
+
+  this.emit('keypress', key, ev);
+  this.emit('key', key, ev);
 
   this.showCursor();
   /*
     anandp:
     on mac do not allow 'v' key to be sent during paste
   */
-  // if (!((key === 'v')
-  //   && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
-  //   this.handler(key);
-  // }
+  if (!((key === 'v')
+    && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
+    if (handle) {
+      console.log('this.handler2', key);
+      this.handler(key);
+    }
+  }
 
   return false;
 };
