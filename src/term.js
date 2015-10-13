@@ -2923,23 +2923,28 @@ Terminal.prototype.keyPress = function(ev) {
   } else {
     return false;
   }
-  console.log(key);
-  console.log(!((key === 118) && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))));
-  console.log(!key || ev.ctrlKey || (ev.altKey && (key != 118)) || (ev.metaKey && (key != 118)));
+  console.log(key, ev);
+  console.log(key === 118 && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)));
+  console.log(!key || ev.ctrlKey || (ev.metaKey && (key != 118)));
   /*
     anandp:
     for mac allow paste event propagation
   */
-  if (!((key === 118)
-    && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
+  // if (
+  //   !((key === 118 || Terminal.VIRTUAL_KEYS.indexOf(key) > -1) &&
+  //   ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))
+  // ) {
+  //   cancel(ev);
+  // }
+  if (key === 118 && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))) {
     cancel(ev);
   }
 
   if (!key || ev.ctrlKey
-    || (ev.altKey && (key != 118))
+    // || (ev.altKey && (key != 118))
     || (ev.metaKey && (key != 118))) {
-      return false;
-    }
+    return false;
+  }
 
   key = String.fromCharCode(key);
 
