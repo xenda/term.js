@@ -2924,8 +2924,6 @@ Terminal.prototype.keyPress = function(ev) {
     return false;
   }
   console.log(key, ev);
-  console.log(key === 118 && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)));
-  console.log(!key || ev.ctrlKey || (ev.metaKey && (key != 118)));
   /*
     anandp:
     for mac allow paste event propagation
@@ -2940,13 +2938,15 @@ Terminal.prototype.keyPress = function(ev) {
     cancel(ev);
   }
 
-  if (!key || ev.ctrlKey
-    // || (ev.altKey && (key != 118))
-    || (ev.metaKey && (key != 118))) {
-    return false;
-  }
+  // if (!key || ev.ctrlKey
+  //   || (ev.altKey && (key != 118))
+  //   || (ev.metaKey && (key != 118))) {
+  //   return false;
+  // }
 
   key = String.fromCharCode(key);
+
+  console.log(key, ev);
 
   if (this.prefixMode) {
     this.leavePrefix();
