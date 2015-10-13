@@ -651,7 +651,7 @@ Terminal.prototype.fixMobile = function(document) {
         setTimeout(function() {
           textarea.blur();
         }, 0);
-        
+
         setTimeout(function() {
           textarea.focus();
         }, 0);
@@ -691,11 +691,11 @@ Terminal.prototype.fixMobile = function(document) {
       }
 
       // var value = textarea.textContent || textarea.value;
-      
+
       // for (var i = 0; i < value.length; i++){
       //   term.send('\x7f')
       // }
-      
+
       // term.send(value);
     });*/
 
@@ -706,7 +706,7 @@ Terminal.prototype.fixMobile = function(document) {
 
       textarea.value = '';
       textarea.textContent = '';
-      
+
       self.send(value.toLowerCase() + '\r');
     });
 
@@ -2641,6 +2641,8 @@ Terminal.prototype.keyDown = function(ev) {
       break;
     default:
       // a-z and space
+      console.log('ev.ctrlKey || this.isMac && ev.metaKey', ev.ctrlKey || this.isMac && ev.metaKey);
+      console.log('ev.altKey', ev.altKey);
       if (ev.ctrlKey || this.isMac && ev.metaKey) {
         if (ev.keyCode >= 65 && ev.keyCode <= 90) {
           // Ctrl-A
@@ -2735,9 +2737,11 @@ Terminal.prototype.keyDown = function(ev) {
         case 219:
           if (ev.shiftKey) {
             key = '\x1b{';
+            console.log(ev.altKey, ev.keyCode, key);
             break;
           }
           key = '\x1b[';
+          console.log(ev.altKey, ev.keyCode, key);
           break;
         case 220:
           if (ev.shiftKey) {
@@ -2883,10 +2887,10 @@ Terminal.prototype.keyDown = function(ev) {
     anandp:
     If we are on a mac system and we press command+p do not cancel event
   */
-  if ((ev.keyCode === 86) 
+  if ((ev.keyCode === 86)
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))) {
-    return true; 
-  } 
+    return true;
+  }
 
   return cancel(ev);
 };
@@ -2917,14 +2921,14 @@ Terminal.prototype.keyPress = function(ev) {
   }
   /*
     anandp:
-    for mac allow paste event propagation 
+    for mac allow paste event propagation
   */
   if (!((key === 118)
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
     cancel(ev);
   }
 
-  if (!key || ev.ctrlKey 
+  if (!key || ev.ctrlKey
     || (ev.altKey && (key != 118))
     || (ev.metaKey && (key != 118))) return false;
 
