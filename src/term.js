@@ -533,7 +533,6 @@ Terminal.bindKeys = function(document) {
         || target === Terminal.focus.body
         || target === Terminal._textarea
         || target === Terminal.focus.parent) {
-      console.log('keypress', ev);
       return Terminal.focus.keyPress(ev);
     }
   }, true);
@@ -2924,6 +2923,9 @@ Terminal.prototype.keyPress = function(ev) {
   } else {
     return false;
   }
+  console.log(key);
+  console.log(!((key === 118) && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey))));
+  console.log(!key || ev.ctrlKey || (ev.altKey && (key != 118)) || (ev.metaKey && (key != 118)));
   /*
     anandp:
     for mac allow paste event propagation
@@ -2935,7 +2937,9 @@ Terminal.prototype.keyPress = function(ev) {
 
   if (!key || ev.ctrlKey
     || (ev.altKey && (key != 118))
-    || (ev.metaKey && (key != 118))) return false;
+    || (ev.metaKey && (key != 118))) {
+      return false;
+    }
 
   key = String.fromCharCode(key);
 
