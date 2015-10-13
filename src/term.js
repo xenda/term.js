@@ -2964,6 +2964,7 @@ Terminal.prototype.keyPress = function(ev) {
   if (ev.charCode > 0 && handle) {
     console.log('this.handler1', key);
     this.emit('data', key);
+    this.emit('data', key);
     handle = false;
   }
 
