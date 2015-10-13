@@ -2978,7 +2978,7 @@ Terminal.prototype.keyPress = function(ev) {
     anandp:
     on mac do not allow 'v' key to be sent during paste
   */
-  console.log(key, ev.charCode, ev);
+  // console.log(key, ev.charCode, ev);
   if (!((key === 'v')
     && ((this.isMac && ev.metaKey) || (!this.isMac && ev.ctrlKey)))) {
       // console.log('keyPress:this.handler', key);
